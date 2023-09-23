@@ -1,0 +1,52 @@
+{
+	"items": [
+		{
+			"id": "SH123",
+			"name": "ComfortFit Running Shoes",
+			"description": "High-performance running shoes with advanced cushioning and support.",
+			"price": 79.99,
+			"category": "Shoes",
+			"stock_quantity": 150,
+			"image": {
+				"src": "/products/shoes_1.jpg",
+				"alt": "some alt"
+			}
+		},
+		{
+			"id": "SH456",
+			"name": "TrailBlazer Hiking Boots",
+			"description": "Durable hiking boots for outdoor enthusiasts with waterproof technology.",
+			"price": 99.99,
+			"category": "Shoes",
+			"stock_quantity": 100,
+			"image": {
+				"src": "/products/shoes_2.jpg",
+				"alt": "some alt"
+			}
+		},
+		{
+			"id": "TS789",
+			"name": "Casual Cotton T-Shirt",
+			"description": "A comfortable and versatile cotton t-shirt for everyday wear.",
+			"price": 19.99,
+			"category": "T-Shirts",
+			"stock_quantity": 200,
+			"image": {
+				"src": "/products/shirt_1.jpg",
+				"alt": "some alt"
+			}
+		},
+		{
+			"id": "TS101",
+			"name": "Graphic Print T-Shirt",
+			"description": "Stylish graphic print t-shirt available in various designs.",
+			"price": 24.99,
+			"category": "T-Shirts",
+			"stock_quantity": 120,
+			"image": {
+				"src": "/products/shirt_2.jpg",
+				"alt": "some alt"
+			}
+		}
+	]
+}
