@@ -1,12 +1,17 @@
-import staticData from "./ProductListData.json";
-import { type ProductListType } from "@/components/types";
+// import staticData from "./ProductListData.json";
+import { type ProductItemType } from "@/components/types";
 import { ProductListItem } from "@/components/molecules/ProductListItem/ProductListItem";
 
-export const ProductList = () => {
-	const data: ProductListType = staticData;
+export const ProductList = async ({ products }: { products: ProductItemType[] }) => {
+	// const data: ProductListType = staticData;
+
+	if (!products.length) {
+		return null;
+	}
+
 	return (
 		<ul className="flex flex-wrap" data-testid="products-list">
-			{data.items.map((product) => {
+			{products.map((product) => {
 				return <ProductListItem key={product.id} product={product} />;
 			})}
 		</ul>

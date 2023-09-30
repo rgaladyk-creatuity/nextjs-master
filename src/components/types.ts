@@ -1,3 +1,5 @@
+import { type Route } from "next";
+
 export type ProductImageType = {
 	src: string;
 	alt: string;
@@ -10,9 +12,17 @@ export type ProductItemType = {
 	price: number;
 	category: string;
 	stock_quantity: number;
-	image: ProductImageType;
+	image: string;
+	// image: ProductImageType;
 };
 
 export type ProductListType = {
 	items: ProductItemType[];
 };
+
+export type TopNavType = TopNavItemType[];
+
+export interface TopNavItemType {
+	path: Route | URL;
+	name: string;
+}
