@@ -21,7 +21,7 @@ const documents = {
     "query ProductsGetByCategorySlug($slug: String!) {\n  categories(where: {slug: $slug}) {\n    products(first: 10) {\n      ...ProductListItem\n    }\n  }\n}": types.ProductsGetByCategorySlugDocument,
     "query ProductsGetBySlug($query: String!) {\n  products(where: {slug_contains: $query}) {\n    ...ProductListItem\n  }\n}": types.ProductsGetBySlugDocument,
     "query ProductsGetList {\n  products(first: 10) {\n    ...ProductListItem\n  }\n}": types.ProductsGetListDocument,
-    "query RelatedProductsGetList($slug: String!) {\n  products(where: {categories_some: {slug: $slug}}) {\n    ...ProductListItem\n  }\n}": types.RelatedProductsGetListDocument,
+    "query RelatedProductsGetList($categorySlug: String!) {\n  products(where: {categories_some: {slug: $categorySlug}}) {\n    ...ProductListItem\n  }\n}": types.RelatedProductsGetListDocument,
 };
 
 /**
@@ -55,7 +55,7 @@ export function graphql(source: "query ProductsGetList {\n  products(first: 10) 
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "query RelatedProductsGetList($slug: String!) {\n  products(where: {categories_some: {slug: $slug}}) {\n    ...ProductListItem\n  }\n}"): typeof import('./graphql').RelatedProductsGetListDocument;
+export function graphql(source: "query RelatedProductsGetList($categorySlug: String!) {\n  products(where: {categories_some: {slug: $categorySlug}}) {\n    ...ProductListItem\n  }\n}"): typeof import('./graphql').RelatedProductsGetListDocument;
 
 
 export function graphql(source: string) {

@@ -1,5 +1,5 @@
-query RelatedProductsGetList($slug: String!) {
-	products(where: { categories_some: { slug: $slug } }) {
+query RelatedProductsGetList($categorySlug: String!) {
+	products(where: { categories_some: { slug: $categorySlug } }) {
 		...ProductListItem
 	}
 }

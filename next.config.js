@@ -4,9 +4,7 @@ const nextConfig = {
         typedRoutes: true
     },
     images: {
-        remotePatterns: [
-
-        ],
+        domains: ["media.graphassets.com"],
     },
 };
 

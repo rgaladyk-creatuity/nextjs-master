@@ -1,46 +1,51 @@
-export type ProductType = {
-	id: string;
-	title: string;
-	price: number;
-	description: string;
-	category: string;
-	rating: ProductRatingType;
-	image: string;
-	longDescription: string;
-};
-
-export type ProductRatingType = {
-	rate: number;
-	count: number;
-};
+import { ProductVariants } from "@/components/molecules/ProductVariants/ProductVariants";
+import { RelatedProducts } from "@/components/organisms/RelatedProducts/RelatedProducts";
+import { executeGraphql } from "@/components/utils";
+import { ProductGetByIdDocument, type ProductListItemFragment } from "@/gql/graphql";
 
 type PageParams = {
 	params: { productId: string };
 };
 
-const getProductData = async (productId: string) => {
-	const response = await fetch("https://naszsklep-api.vercel.app/api/products/" + productId);
-	const data = (await response.json()) as ProductType;
+const getProductData = async (productId: string): Promise<ProductListItemFragment | null> => {
+	const { product } = await executeGraphql(ProductGetByIdDocument, {
+		id: productId,
+	});
 
-	return data;
+	return product || null;
 };
 
 export async function generateMetadata({ params }: PageParams) {
-	const { title, description } = await getProductData(params.productId);
+	const product = await getProductData(params.productId);
+
+	if (!product) {
+		return null;
+	}
+
+	const { name, description } = product;
 
 	return {
-		title,
+		title: name,
 		description,
 	};
 }
 
 export default async function ProductPage({ params }: PageParams) {
-	const { title, description } = await getProductData(params.productId);
+	const product = await getProductData(params.productId);
+
+	if (!product) {
+		return null;
+	}
+
+	const { categories, name, description, variants } = product;
+	const categorySlug = categories[0].slug || "";
 
 	return (
 		<>
-			<h1>{title}</h1>
+			<h1>{name}</h1>
 			<p>{description}</p>
+			{variants.length && <ProductVariants variants={variants} />}
+			{categorySlug.length && <RelatedProducts categorySlug={categorySlug} />}
 		</>
 	);
 }

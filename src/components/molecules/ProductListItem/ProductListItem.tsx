@@ -1,9 +1,9 @@
 import Link from "next/link";
-// import { ProductItemImage } from "@/components/atoms/ProductItemImage/ProductItemImage";
+import { ProductItemImage } from "@/components/atoms/ProductItemImage/ProductItemImage";
 import { type ProductListItemFragment } from "@/gql/graphql";
 
 export const ProductListItem = ({ product }: { product: ProductListItemFragment }) => {
-	// const imageUrl = product.images[0].url;
+	const imageUrl = product.images[0].url || "";
 	return (
 		<li className="w-full p-4 sm:w-1/2 xl:w-1/4" key={product.id}>
 			<Link href={`/product/${product.id}`}>
@@ -11,7 +11,7 @@ export const ProductListItem = ({ product }: { product: ProductListItemFragment 
 					<p className="mb-2 bg-green-500 text-center text-xl font-bold text-white">
 						{product.categories[0].name}
 					</p>
-					{/* {imageUrl ? <ProductItemImage image={imageUrl} /> : null} */}
+					{imageUrl.length && <ProductItemImage image={imageUrl} />}
 					<h3 className="text-lg font-bold">{product.name}</h3>
 					<p>{product.description}</p>
 					<p className="text-right text-lg">{product.price}</p>

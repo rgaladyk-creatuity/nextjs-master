@@ -10759,7 +10759,7 @@ export type ProductsGetListQueryVariables = Exact<{ [key: string]: never; }>;
 export type ProductsGetListQuery = { products: Array<{ id: string, name: string, description: string, price: number, categories: Array<{ name: string, slug: string }>, images: Array<{ url: string }>, variants: Array<{ id: string, name: string, stage: Stage, color: ProductColor } | { id: string, name: string, stage: Stage, color: ProductColor, size: ProductSize } | { id: string, name: string, stage: Stage, size: ProductSize }> }> };
 
 export type RelatedProductsGetListQueryVariables = Exact<{
-  slug: Scalars['String']['input'];
+  categorySlug: Scalars['String']['input'];
 }>;
 
 
@@ -11060,8 +11060,8 @@ fragment ProductListItemVariants on ProductVariants {
   }
 }`) as unknown as TypedDocumentString<ProductsGetListQuery, ProductsGetListQueryVariables>;
 export const RelatedProductsGetListDocument = new TypedDocumentString(`
-    query RelatedProductsGetList($slug: String!) {
-  products(where: {categories_some: {slug: $slug}}) {
+    query RelatedProductsGetList($categorySlug: String!) {
+  products(where: {categories_some: {slug: $categorySlug}}) {
     ...ProductListItem
   }
 }
