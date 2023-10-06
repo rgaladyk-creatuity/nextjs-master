@@ -3,7 +3,7 @@ import { ProductsGetBySlugDocument } from "@/gql/graphql";
 import { executeGraphql } from "@/components/utils";
 
 export const SearchResults = async ({ query }: { query: string }) => {
-	const { products } = await executeGraphql(ProductsGetBySlugDocument, { query });
+	const { products } = await executeGraphql(ProductsGetBySlugDocument, { query: decodeURI(query) });
 
 	return (
 		<>

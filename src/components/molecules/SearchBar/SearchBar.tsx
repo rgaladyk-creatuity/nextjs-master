@@ -38,7 +38,7 @@ export const SearchBar = () => {
 	}, [inputValue]);
 
 	return (
-		<form onSubmit={onSubmit}>
+		<form onSubmit={onSubmit} role="searchbox">
 			<label className="sr-only" htmlFor="query">
 				Search for:
 			</label>

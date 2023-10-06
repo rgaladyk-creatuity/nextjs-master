@@ -10720,7 +10720,7 @@ export type CollectionsGetByCategorySlugQueryVariables = Exact<{
 }>;
 
 
-export type CollectionsGetByCategorySlugQuery = { collections: Array<{ products: Array<{ id: string, name: string, description: string, price: number, categories: Array<{ name: string, slug: string }>, images: Array<{ url: string }>, variants: Array<{ id: string, name: string, stage: Stage, color: ProductColor } | { id: string, name: string, stage: Stage, color: ProductColor, size: ProductSize } | { id: string, name: string, stage: Stage, size: ProductSize }> }> }> };
+export type CollectionsGetByCategorySlugQuery = { collections: Array<{ name: string, products: Array<{ id: string, name: string, description: string, price: number, categories: Array<{ name: string, slug: string }>, images: Array<{ url: string }>, variants: Array<{ id: string, name: string, stage: Stage, color: ProductColor } | { id: string, name: string, stage: Stage, color: ProductColor, size: ProductSize } | { id: string, name: string, stage: Stage, size: ProductSize }> }> }> };
 
 export type ProductGetByIdQueryVariables = Exact<{
   id: Scalars['ID']['input'];
@@ -10843,6 +10843,7 @@ export const ProductListItemFragmentDoc = new TypedDocumentString(`
 export const CollectionsGetByCategorySlugDocument = new TypedDocumentString(`
     query CollectionsGetByCategorySlug($slug: String!) {
   collections(where: {slug: $slug}) {
+    name
     products {
       ...ProductListItem
     }
@@ -10975,7 +10976,7 @@ fragment ProductListItemVariants on ProductVariants {
 }`) as unknown as TypedDocumentString<ProductsGetByCategorySlugQuery, ProductsGetByCategorySlugQueryVariables>;
 export const ProductsGetBySlugDocument = new TypedDocumentString(`
     query ProductsGetBySlug($query: String!) {
-  products(where: {slug_contains: $query}) {
+  products(where: {name_contains: $query}) {
     ...ProductListItem
   }
 }

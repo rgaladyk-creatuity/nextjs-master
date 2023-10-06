@@ -5,6 +5,22 @@ import {
 	type CollectionsGetByCategorySlugQuery,
 } from "@/gql/graphql";
 
+export async function generateMetadata({ params }: { params: { collectionSlug: string } }) {
+	const { collectionSlug } = params;
+	const data: CollectionsGetByCategorySlugQuery = await executeGraphql(
+		CollectionsGetByCategorySlugDocument,
+		{
+			slug: collectionSlug,
+		},
+	);
+
+	const name = data.collections[0].name;
+
+	return {
+		title: name,
+	};
+}
+
 export default async function CollectionsPage({ params }: { params: { collectionSlug: string } }) {
 	const { collectionSlug } = params;
 	const data: CollectionsGetByCategorySlugQuery = await executeGraphql(
@@ -14,7 +30,13 @@ export default async function CollectionsPage({ params }: { params: { collection
 		},
 	);
 
+	const name = data.collections[0].name;
 	const products = data.collections[0].products || [];
 
-	return <ProductList products={products} />;
+	return (
+		<>
+			<h1>{name}</h1>
+			<ProductList products={products} />
+		</>
+	);
 }

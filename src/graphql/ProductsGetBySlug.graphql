@@ -1,5 +1,5 @@
 query ProductsGetBySlug($query: String!) {
-	products(where: { slug_contains: $query }) {
+	products(where: { name_contains: $query }) {
 		...ProductListItem
 	}
 }
