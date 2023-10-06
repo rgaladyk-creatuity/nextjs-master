@@ -26,3 +26,7 @@ export interface TopNavItemType {
 	path: Route | URL;
 	name: string;
 }
+
+export type GraphQLResponse<T> =
+	| { data?: undefined; errors: { message: string }[] }
+	| { data: T; errors?: undefined };

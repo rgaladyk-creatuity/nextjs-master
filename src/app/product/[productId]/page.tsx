@@ -1,5 +1,3 @@
-import { Metadata } from "next";
-
 export type ProductType = {
 	id: string;
 	title: string;

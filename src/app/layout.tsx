@@ -1,7 +1,8 @@
-import { TopNav } from "@/components/organisms/TopNav/TopNav";
-import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import "./globals.css";
+import { ApolloWrapper } from "./lib/apollo-provider";
+import { TopNav } from "@/components/organisms/TopNav/TopNav";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,7 +16,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 		<html lang="pl">
 			<body className={inter.className}>
 				<TopNav />
-				{children}
+				<ApolloWrapper>{children}</ApolloWrapper>
 			</body>
 		</html>
 	);

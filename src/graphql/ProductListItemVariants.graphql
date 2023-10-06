@@ -1,0 +1,21 @@
+fragment ProductListItemVariants on ProductVariants {
+	... on ProductColorVariant {
+		id
+		name
+		stage
+		color
+	}
+	... on ProductSizeColorVariant {
+		id
+		name
+		stage
+		color
+		size
+	}
+	... on ProductSizeVariant {
+		id
+		name
+		stage
+		size
+	}
+}

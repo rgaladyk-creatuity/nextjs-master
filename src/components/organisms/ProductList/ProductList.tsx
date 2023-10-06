@@ -1,11 +1,8 @@
-// import staticData from "./ProductListData.json";
-import { type ProductItemType } from "@/components/types";
 import { ProductListItem } from "@/components/molecules/ProductListItem/ProductListItem";
+import { type ProductListItemFragment } from "@/gql/graphql";
 
-export const ProductList = async ({ products }: { products: ProductItemType[] }) => {
-	// const data: ProductListType = staticData;
-
-	if (!products.length) {
+export const ProductList = async ({ products }: { products: ProductListItemFragment[] }) => {
+	if (!products?.length) {
 		return null;
 	}
 

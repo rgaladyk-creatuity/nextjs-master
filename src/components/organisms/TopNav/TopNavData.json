@@ -6,5 +6,9 @@
 	{
 		"path": "/products",
 		"name": "All"
+	},
+	{
+		"path": "/categories",
+		"name": "Categories"
 	}
 ]
