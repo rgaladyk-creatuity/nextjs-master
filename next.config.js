@@ -5,24 +5,7 @@ const nextConfig = {
     },
     images: {
         remotePatterns: [
-            {
-                protocol: 'https',
-                hostname: 'naszsklep-api.vercel.app',
-                port: '',
-                pathname: '',
-            },
-            {
-                protocol: 'https',
-                hostname: 'via.placeholder.com',
-                port: '',
-                pathname: '',
-            },
-            {
-                protocol: 'https',
-                hostname: 'media.graphassets.com',
-                port: '',
-                pathname: '',
-            },
+
         ],
     },
 };

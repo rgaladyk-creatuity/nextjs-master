@@ -1,25 +1,9 @@
-"use client";
-
-import { gql, useSuspenseQuery } from "@apollo/client";
-import { useSearchParams } from "next/navigation";
 import { ProductList } from "../ProductList/ProductList";
-import { ProductsGetBySlugDocument, type ProductsGetBySlugQuery } from "@/gql/graphql";
+import { ProductsGetBySlugDocument } from "@/gql/graphql";
+import { executeGraphql } from "@/components/utils";
 
-export const SearchResults = () => {
-	const searchParams = useSearchParams();
-	const query = searchParams.get("query");
-
-	const gqlQuery = gql`
-		${ProductsGetBySlugDocument}
-	`;
-
-	const { data }: { data: ProductsGetBySlugQuery } = useSuspenseQuery(gqlQuery, {
-		variables: {
-			query,
-		},
-	});
-
-	const products = data?.products || [];
+export const SearchResults = async ({ query }: { query: string }) => {
+	const { products } = await executeGraphql(ProductsGetBySlugDocument, { query });
 
 	return (
 		<>
