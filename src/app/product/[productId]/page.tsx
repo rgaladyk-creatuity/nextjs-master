@@ -1,3 +1,4 @@
+import { addProductToCart, getOrCreateCart } from "@/app/cart/actions";
 import { ProductVariants } from "@/components/molecules/ProductVariants/ProductVariants";
 import { RelatedProducts } from "@/components/organisms/RelatedProducts/RelatedProducts";
 import { executeGraphql } from "@/components/utils";
@@ -8,8 +9,11 @@ type PageParams = {
 };
 
 const getProductData = async (productId: string): Promise<ProductListItemFragment | null> => {
-	const { product } = await executeGraphql(ProductGetByIdDocument, {
-		id: productId,
+	const { product } = await executeGraphql({
+		query: ProductGetByIdDocument,
+		variables: {
+			id: productId,
+		},
 	});
 
 	return product || null;
@@ -37,14 +41,34 @@ export default async function ProductPage({ params }: PageParams) {
 		return null;
 	}
 
-	const { categories, name, description, variants } = product;
+	const { id, categories, name, description, variants } = product;
 	const categorySlug = categories[0].slug || "";
+
+	async function addProductToCartAction(formData: FormData) {
+		"use server";
+
+		const cart = await getOrCreateCart();
+		if (!cart.id) {
+			throw new Error("Cant get cart id");
+		}
+
+		await addProductToCart(cart.id, params.productId);
+	}
 
 	return (
 		<>
 			<h1>{name}</h1>
 			<p>{description}</p>
-			{variants.length && <ProductVariants variants={variants} />}
+			<form action={addProductToCartAction}>
+				<input type="text" name="productId" value={id} hidden />
+				{variants.length && <ProductVariants variants={variants} />}
+				<button
+					type="submit"
+					className="w-full rounded-md border bg-slate-700 px-8 py-3 text-white"
+				>
+					Add to cart
+				</button>
+			</form>
 			{categorySlug.length && <RelatedProducts categorySlug={categorySlug} />}
 		</>
 	);

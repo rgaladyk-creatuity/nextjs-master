@@ -3,7 +3,7 @@ import { executeGraphql } from "@/components/utils";
 import { ProductsGetListDocument } from "@/gql/graphql";
 
 export default async function ProductsPage() {
-	const { products } = await executeGraphql(ProductsGetListDocument, {});
+	const { products } = await executeGraphql({ query: ProductsGetListDocument });
 
 	return (
 		<main className="flex min-h-screen flex-col items-center justify-between p-24">

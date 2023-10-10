@@ -7,12 +7,12 @@ import {
 
 export async function generateMetadata({ params }: { params: { collectionSlug: string } }) {
 	const { collectionSlug } = params;
-	const data: CollectionsGetByCategorySlugQuery = await executeGraphql(
-		CollectionsGetByCategorySlugDocument,
-		{
+	const data: CollectionsGetByCategorySlugQuery = await executeGraphql({
+		query: CollectionsGetByCategorySlugDocument,
+		variables: {
 			slug: collectionSlug,
 		},
-	);
+	});
 
 	const name = data.collections[0].name;
 
@@ -23,12 +23,12 @@ export async function generateMetadata({ params }: { params: { collectionSlug: s
 
 export default async function CollectionsPage({ params }: { params: { collectionSlug: string } }) {
 	const { collectionSlug } = params;
-	const data: CollectionsGetByCategorySlugQuery = await executeGraphql(
-		CollectionsGetByCategorySlugDocument,
-		{
+	const data: CollectionsGetByCategorySlugQuery = await executeGraphql({
+		query: CollectionsGetByCategorySlugDocument,
+		variables: {
 			slug: collectionSlug,
 		},
-	);
+	});
 
 	const name = data.collections[0].name;
 	const products = data.collections[0].products || [];

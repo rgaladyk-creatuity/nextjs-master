@@ -16,8 +16,11 @@ export default async function CategoryPage({
 	const categorySlug = categoryParams[0] || "";
 	// const pageNumber = categoryParams[1] || 1;
 
-	const { categories } = await executeGraphql(ProductsGetByCategorySlugDocument, {
-		slug: categorySlug,
+	const { categories } = await executeGraphql({
+		query: ProductsGetByCategorySlugDocument,
+		variables: {
+			slug: categorySlug,
+		},
 	});
 
 	if (!categories[0]?.products.length) {
