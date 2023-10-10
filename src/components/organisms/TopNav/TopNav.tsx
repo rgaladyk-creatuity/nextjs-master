@@ -23,7 +23,7 @@ export const TopNav = () => {
 									href={link.path}
 									text={link.name}
 									className="text-blue-400"
-									activeClassName="text-blue-600"
+									activeClassName="text-blue-600 border-b-2 border-solid border-green-500"
 								/>
 							</li>
 						);
