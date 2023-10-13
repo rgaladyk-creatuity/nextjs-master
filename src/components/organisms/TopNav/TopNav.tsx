@@ -13,12 +13,13 @@ export const TopNav = async () => {
 		};
 	});
 
-	const cartData = await getOrCreateCart();
-	// if ( typeof cartData === 'object')
 	let quantity = 0;
-	// cartData.orderItems.forEach((item) => {
-	// 	console.log(item);
-	// });
+	const cartData = await getOrCreateCart();
+	if (typeof cartData === "object") {
+		cartData.orderItems.forEach((item) => {
+			quantity += item.quantity;
+		});
+	}
 
 	return (
 		<nav className="mx-auto max-w-xl" role="navigation">

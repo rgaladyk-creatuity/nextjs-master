@@ -3,6 +3,7 @@ import { CartGetByIdDocument } from "@/gql/graphql";
 import { executeGraphql } from "@/components/utils";
 import { formatMoney } from "../lib/formatMoney";
 import { ChangeQuantity } from "@/components/atoms/ChangeQuantity/ChangeQuantity";
+import { CartRemoveButton } from "@/components/atoms/CartRemoveButton/CartRemoveButton";
 
 export default async function CartPage() {
 	const cartId = cookies().get("cartId")?.value;
@@ -40,6 +41,7 @@ export default async function CartPage() {
 						<th>Quantity</th>
 						<th>Increase</th>
 						<th>Price</th>
+						<th>Remove</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -57,12 +59,15 @@ export default async function CartPage() {
 										<ChangeQuantity itemId={item.id} quantity={item.quantity} />
 									</td>
 									<td>{formatMoney(item.product.price)}</td>
+									<td>
+										<CartRemoveButton itemId={item.id} />
+									</td>
 								</tr>
-								<tr>
+								{/* <tr>
 									<td colSpan={6}>
 										<pre>{JSON.stringify(item.product)}</pre>
 									</td>
-								</tr>
+								</tr> */}
 							</>
 						);
 					})}

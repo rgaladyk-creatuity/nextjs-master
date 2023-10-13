@@ -4,7 +4,7 @@ import { ProductVariants } from "@/components/molecules/ProductVariants/ProductV
 import { RelatedProducts } from "@/components/organisms/RelatedProducts/RelatedProducts";
 import { executeGraphql } from "@/components/utils";
 import { ProductGetByIdDocument, type ProductListItemFragment } from "@/gql/graphql";
-import { revalidateTag } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 type PageParams = {
 	params: { productId: string };
@@ -55,8 +55,7 @@ export default async function ProductPage({ params }: PageParams) {
 		}
 
 		await addProductToCart(cart.id, params.productId);
-
-		// revalidateTag()
+		revalidateTag("cart");
 	}
 
 	return (

@@ -10729,6 +10729,13 @@ export type CartCreateMutationVariables = Exact<{ [key: string]: never; }>;
 
 export type CartCreateMutation = { createOrder?: { id: string } | null };
 
+export type CartRemoveItemMutationVariables = Exact<{
+  itemId: Scalars['ID']['input'];
+}>;
+
+
+export type CartRemoveItemMutation = { deleteOrderItem?: { id: string } | null };
+
 export type CartGetByIdQueryVariables = Exact<{
   id: Scalars['ID']['input'];
 }>;
@@ -10885,6 +10892,13 @@ export const CartCreateDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<CartCreateMutation, CartCreateMutationVariables>;
+export const CartRemoveItemDocument = new TypedDocumentString(`
+    mutation CartRemoveItem($itemId: ID!) {
+  deleteOrderItem(where: {id: $itemId}) {
+    id
+  }
+}
+    `) as unknown as TypedDocumentString<CartRemoveItemMutation, CartRemoveItemMutationVariables>;
 export const CartGetByIdDocument = new TypedDocumentString(`
     query CartGetById($id: ID!) {
   order(where: {id: $id}, stage: DRAFT) {

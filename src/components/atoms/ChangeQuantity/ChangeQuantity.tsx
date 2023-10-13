@@ -1,17 +1,6 @@
 "use client";
-import { executeGraphql } from "@/components/utils";
-import { CartUpdateProductQuantityDocument } from "@/gql/graphql";
 import { experimental_useOptimistic as useOptimistic } from "react";
-
-export async function changeItemQuantity(itemId: string, quantity: number) {
-	await executeGraphql({
-		query: CartUpdateProductQuantityDocument,
-		variables: {
-			orderItemId: itemId,
-			quantity,
-		},
-	});
-}
+import { changeItemQuantity } from "./actions";
 
 export function ChangeQuantity({ itemId, quantity }: { itemId: string; quantity: number }) {
 	const [optimisticQuantity, setOptimisticQuantity] = useOptimistic(
