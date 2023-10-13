@@ -38,7 +38,7 @@ export const SearchBar = () => {
 	}, [inputValue]);
 
 	return (
-		<form onSubmit={onSubmit} role="searchbox" action="/search">
+		<form onSubmit={onSubmit} action="/search">
 			<label className="sr-only" htmlFor="query">
 				Search for:
 			</label>
@@ -49,6 +49,7 @@ export const SearchBar = () => {
 				id="query"
 				value={inputValue}
 				onChange={(e) => setInputValue(e.target.value)}
+				role="searchbox"
 			/>
 			<input type="submit" value="Submit form" className="sr-only" />
 		</form>
