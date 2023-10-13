@@ -10729,14 +10729,20 @@ export type CartCreateMutationVariables = Exact<{ [key: string]: never; }>;
 
 export type CartCreateMutation = { createOrder?: { id: string } | null };
 
-export type CartFragment = { id: string };
-
 export type CartGetByIdQueryVariables = Exact<{
   id: Scalars['ID']['input'];
 }>;
 
 
-export type CartGetByIdQuery = { order?: { id: string } | null };
+export type CartGetByIdQuery = { order?: { id: string, orderItems: Array<{ id: string, quantity: number, total: number, product?: { name: string, price: number, description: string } | null }> } | null };
+
+export type CartUpdateProductQuantityMutationVariables = Exact<{
+  orderItemId: Scalars['ID']['input'];
+  quantity: Scalars['Int']['input'];
+}>;
+
+
+export type CartUpdateProductQuantityMutation = { updateOrderItem?: { id: string, quantity: number } | null };
 
 export type CollectionsGetByCategorySlugQueryVariables = Exact<{
   slug: Scalars['String']['input'];
@@ -10767,7 +10773,7 @@ export type ProductsGetByCategorySlugQueryVariables = Exact<{
 }>;
 
 
-export type ProductsGetByCategorySlugQuery = { categories: Array<{ products: Array<{ id: string, name: string, description: string, price: number, categories: Array<{ name: string, slug: string }>, images: Array<{ url: string }>, variants: Array<{ id: string, name: string, stage: Stage, color: ProductColor } | { id: string, name: string, stage: Stage, color: ProductColor, size: ProductSize } | { id: string, name: string, stage: Stage, size: ProductSize }> }> }> };
+export type ProductsGetByCategorySlugQuery = { categories: Array<{ name: string, products: Array<{ id: string, name: string, description: string, price: number, categories: Array<{ name: string, slug: string }>, images: Array<{ url: string }>, variants: Array<{ id: string, name: string, stage: Stage, color: ProductColor } | { id: string, name: string, stage: Stage, color: ProductColor, size: ProductSize } | { id: string, name: string, stage: Stage, size: ProductSize }> }> }> };
 
 export type ProductsGetBySlugQueryVariables = Exact<{
   query: Scalars['String']['input'];
@@ -10802,11 +10808,6 @@ export class TypedDocumentString<TResult, TVariables>
     return this.value;
   }
 }
-export const CartFragmentDoc = new TypedDocumentString(`
-    fragment Cart on Order {
-  id
-}
-    `, {"fragmentName":"Cart"}) as unknown as TypedDocumentString<CartFragment, unknown>;
 export const ProductListItemVariantsFragmentDoc = new TypedDocumentString(`
     fragment ProductListItemVariants on ProductVariants {
   ... on ProductColorVariant {
@@ -10880,21 +10881,35 @@ export const CartAddItemDocument = new TypedDocumentString(`
 export const CartCreateDocument = new TypedDocumentString(`
     mutation CartCreate {
   createOrder(data: {total: 0}) {
-    ...Cart
+    id
   }
 }
-    fragment Cart on Order {
-  id
-}`) as unknown as TypedDocumentString<CartCreateMutation, CartCreateMutationVariables>;
+    `) as unknown as TypedDocumentString<CartCreateMutation, CartCreateMutationVariables>;
 export const CartGetByIdDocument = new TypedDocumentString(`
     query CartGetById($id: ID!) {
-  order(where: {id: $id}) {
-    ...Cart
+  order(where: {id: $id}, stage: DRAFT) {
+    id
+    orderItems {
+      id
+      quantity
+      total
+      product {
+        name
+        price
+        description
+      }
+    }
   }
 }
-    fragment Cart on Order {
-  id
-}`) as unknown as TypedDocumentString<CartGetByIdQuery, CartGetByIdQueryVariables>;
+    `) as unknown as TypedDocumentString<CartGetByIdQuery, CartGetByIdQueryVariables>;
+export const CartUpdateProductQuantityDocument = new TypedDocumentString(`
+    mutation CartUpdateProductQuantity($orderItemId: ID!, $quantity: Int!) {
+  updateOrderItem(where: {id: $orderItemId}, data: {quantity: $quantity}) {
+    id
+    quantity
+  }
+}
+    `) as unknown as TypedDocumentString<CartUpdateProductQuantityMutation, CartUpdateProductQuantityMutationVariables>;
 export const CollectionsGetByCategorySlugDocument = new TypedDocumentString(`
     query CollectionsGetByCategorySlug($slug: String!) {
   collections(where: {slug: $slug}) {
@@ -10987,6 +11002,7 @@ fragment ProductListItemVariants on ProductVariants {
 export const ProductsGetByCategorySlugDocument = new TypedDocumentString(`
     query ProductsGetByCategorySlug($slug: String!) {
   categories(where: {slug: $slug}) {
+    name
     products(first: 10) {
       ...ProductListItem
     }

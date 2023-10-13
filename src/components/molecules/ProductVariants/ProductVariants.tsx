@@ -10,7 +10,7 @@ export const ProductVariants = ({ variants }: { variants: ProductListItemVariant
 			{variants.map((variant, index) => {
 				return (
 					<li key={index}>
-						<input type="radio" name="variant" value={variant.id} id={variant.id} />
+						<input type="radio" name="variant" defaultValue={variant.id} id={variant.id} />
 						<label htmlFor={variant.id}>{variant.name}</label>
 					</li>
 				);

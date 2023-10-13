@@ -1,8 +1,11 @@
+"use server";
+
 import { executeGraphql } from "@/components/utils";
 import {
 	CartAddItemDocument,
 	CartCreateDocument,
 	CartGetByIdDocument,
+	CartUpdateProductQuantityDocument,
 	ProductGetByIdDocument,
 } from "@/gql/graphql";
 import { cookies } from "next/headers";
@@ -41,14 +44,22 @@ export async function addProductToCart(cartId: string, productId: string) {
 		throw new Error(`Product with id ${productId} not found`);
 	}
 
-	console.log(cartId, productId);
-
 	await executeGraphql({
 		query: CartAddItemDocument,
 		variables: {
 			orderId: cartId,
 			productId,
 			total: product.price,
+		},
+	});
+}
+
+export async function changeItemQuantity(itemId: string, quantity: number) {
+	await executeGraphql({
+		query: CartUpdateProductQuantityDocument,
+		variables: {
+			itemId,
+			quantity,
 		},
 	});
 }

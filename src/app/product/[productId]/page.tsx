@@ -1,8 +1,10 @@
 import { addProductToCart, getOrCreateCart } from "@/app/cart/actions";
+import { AddToCartButton } from "@/components/atoms/AddToCartClient/AddToCartClient";
 import { ProductVariants } from "@/components/molecules/ProductVariants/ProductVariants";
 import { RelatedProducts } from "@/components/organisms/RelatedProducts/RelatedProducts";
 import { executeGraphql } from "@/components/utils";
 import { ProductGetByIdDocument, type ProductListItemFragment } from "@/gql/graphql";
+import { revalidateTag } from "next/cache";
 
 type PageParams = {
 	params: { productId: string };
@@ -53,6 +55,8 @@ export default async function ProductPage({ params }: PageParams) {
 		}
 
 		await addProductToCart(cart.id, params.productId);
+
+		// revalidateTag()
 	}
 
 	return (
@@ -60,14 +64,15 @@ export default async function ProductPage({ params }: PageParams) {
 			<h1>{name}</h1>
 			<p>{description}</p>
 			<form action={addProductToCartAction}>
-				<input type="text" name="productId" value={id} hidden />
+				<input type="text" name="productId" defaultValue={id} hidden />
 				{variants.length && <ProductVariants variants={variants} />}
-				<button
+				{/* <button
 					type="submit"
 					className="w-full rounded-md border bg-slate-700 px-8 py-3 text-white"
 				>
 					Add to cart
-				</button>
+				</button> */}
+				<AddToCartButton />
 			</form>
 			{categorySlug.length && <RelatedProducts categorySlug={categorySlug} />}
 		</>

@@ -12,8 +12,16 @@ export const PaginationLink = ({
 	current: boolean;
 }) => {
 	return (
-		<li className={clsx("m-2", current ? "font-bold" : null)}>
-			<Link href={path as Route}>{pageNumber}</Link>
+		<li>
+			<Link
+				href={path as Route}
+				className={clsx(
+					"m-2",
+					current ? "border-b-2 border-solid border-green-500 font-bold" : null,
+				)}
+			>
+				{pageNumber}
+			</Link>
 		</li>
 	);
 };

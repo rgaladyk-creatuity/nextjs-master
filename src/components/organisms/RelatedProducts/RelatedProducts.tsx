@@ -3,8 +3,11 @@ import { executeGraphql } from "@/components/utils";
 import { RelatedProductsGetListDocument } from "@/gql/graphql";
 
 export const RelatedProducts = async ({ categorySlug }: { categorySlug: string }) => {
-	const relatedProducts = await executeGraphql(RelatedProductsGetListDocument, {
-		categorySlug,
+	const relatedProducts = await executeGraphql({
+		query: RelatedProductsGetListDocument,
+		variables: {
+			categorySlug,
+		},
 	});
 
 	return (

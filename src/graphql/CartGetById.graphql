@@ -1,5 +1,15 @@
 query CartGetById($id: ID!) {
-	order(where: { id: $id }) {
+	order(where: { id: $id }, stage: DRAFT) {
 		id
+		orderItems {
+			id
+			quantity
+			total
+			product {
+				name
+				price
+				description
+			}
+		}
 	}
 }
