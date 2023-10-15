@@ -1,8 +1,8 @@
 "use server";
 
+import { revalidateTag } from "next/cache";
 import { executeGraphql } from "@/components/utils";
 import { CartUpdateProductQuantityDocument } from "@/gql/graphql";
-import { revalidateTag } from "next/cache";
 
 export async function changeItemQuantity(itemId: string, quantity: number) {
 	await executeGraphql({

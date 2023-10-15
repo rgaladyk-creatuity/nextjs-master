@@ -1,5 +1,5 @@
-import { TypedDocumentString } from "@/gql/graphql";
-import { GraphQLResponse } from "./types";
+import type { GraphQLResponse } from "./types";
+import type { TypedDocumentString } from "@/gql/graphql";
 
 export async function executeGraphql<TResult, TVariables>({
 	query,

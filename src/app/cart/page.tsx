@@ -1,9 +1,10 @@
 import { cookies } from "next/headers";
-import { CartGetByIdDocument } from "@/gql/graphql";
-import { executeGraphql } from "@/components/utils";
+import Link from "next/link";
 import { formatMoney } from "../lib/formatMoney";
-import { ChangeQuantity } from "@/components/atoms/ChangeQuantity/ChangeQuantity";
 import { CartRemoveButton } from "@/components/atoms/CartRemoveButton/CartRemoveButton";
+import { ChangeQuantity } from "@/components/atoms/ChangeQuantity/ChangeQuantity";
+import { executeGraphql } from "@/components/utils";
+import { CartGetByIdDocument } from "@/gql/graphql";
 
 export default async function CartPage() {
 	const cartId = cookies().get("cartId")?.value;
@@ -33,6 +34,7 @@ export default async function CartPage() {
 	return (
 		<div>
 			<h1>Order #{cart.id} summary</h1>
+			<Link href="/cart/details">Details</Link>
 			<table>
 				<thead>
 					<tr>
@@ -51,7 +53,7 @@ export default async function CartPage() {
 						}
 						return (
 							<>
-								<tr key={item.product.id}>
+								<tr key={item.id}>
 									<td>{item.id}</td>
 									<td>{item.product.name}</td>
 									<td>{item.quantity}</td>

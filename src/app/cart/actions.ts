@@ -1,5 +1,6 @@
 "use server";
 
+import { cookies } from "next/headers";
 import { executeGraphql } from "@/components/utils";
 import {
 	CartAddItemDocument,
@@ -9,11 +10,11 @@ import {
 	CartUpdateProductQuantityDocument,
 	ProductGetByIdDocument,
 } from "@/gql/graphql";
-import { cookies } from "next/headers";
 
-export async function getOrCreateCart() {
-	const cartId = cookies().get("cartId")?.value;
-	if (cartId) {
+export const getCartData = async () => {
+	const cartId = cookies().get("cartId")?.value || "";
+
+	if (cartId.length) {
 		const { order: cart } = await executeGraphql({
 			query: CartGetByIdDocument,
 			variables: {
@@ -23,9 +24,19 @@ export async function getOrCreateCart() {
 				tags: ["cart"],
 			},
 		});
-		if (cart) {
-			return cart;
-		}
+		return cart;
+	}
+
+	return {
+		id: null,
+	};
+};
+
+export async function getOrCreateCartId(): Promise<string> {
+	"use server";
+	const cart = await getCartData();
+	if (cart?.id) {
+		return cart.id;
 	}
 
 	const { createOrder: newCart } = await executeGraphql({ query: CartCreateDocument });
@@ -34,7 +45,12 @@ export async function getOrCreateCart() {
 	}
 
 	cookies().set("cartId", newCart.id);
-	return newCart;
+	return newCart.id;
+}
+
+export async function getCartId(): Promise<string> {
+	"use server";
+	return cookies().get("cartId")?.value || "";
 }
 
 export async function addProductToCart(cartId: string, productId: string) {
@@ -62,7 +78,7 @@ export async function changeItemQuantity(itemId: string, quantity: number) {
 	await executeGraphql({
 		query: CartUpdateProductQuantityDocument,
 		variables: {
-			itemId,
+			orderItemId: itemId,
 			quantity,
 		},
 	});

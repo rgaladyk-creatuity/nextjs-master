@@ -1,10 +1,10 @@
-import { addProductToCart, getOrCreateCart } from "@/app/cart/actions";
+import { revalidateTag } from "next/cache";
+import { addProductToCart, getCartId } from "@/app/cart/actions";
 import { AddToCartButton } from "@/components/atoms/AddToCartClient/AddToCartClient";
 import { ProductVariants } from "@/components/molecules/ProductVariants/ProductVariants";
 import { RelatedProducts } from "@/components/organisms/RelatedProducts/RelatedProducts";
 import { executeGraphql } from "@/components/utils";
 import { ProductGetByIdDocument, type ProductListItemFragment } from "@/gql/graphql";
-import { revalidatePath, revalidateTag } from "next/cache";
 
 type PageParams = {
 	params: { productId: string };
@@ -46,15 +46,15 @@ export default async function ProductPage({ params }: PageParams) {
 	const { id, categories, name, description, variants } = product;
 	const categorySlug = categories[0].slug || "";
 
-	async function addProductToCartAction(formData: FormData) {
+	async function addProductToCartAction(_formData: FormData) {
 		"use server";
 
-		const cart = await getOrCreateCart();
-		if (!cart.id) {
+		const cartId = await getCartId();
+		if (!cartId) {
 			throw new Error("Cant get cart id");
 		}
 
-		await addProductToCart(cart.id, params.productId);
+		await addProductToCart(cartId, params.productId);
 		revalidateTag("cart");
 	}
 
