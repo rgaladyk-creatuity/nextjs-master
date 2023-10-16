@@ -56,7 +56,7 @@ export default async function CartPage() {
 								<tr key={item.id}>
 									<td>{item.id}</td>
 									<td>{item.product.name}</td>
-									<td>{item.quantity}</td>
+									<td data-testid="quantity">{item.quantity}</td>
 									<td>
 										<ChangeQuantity itemId={item.id} quantity={item.quantity} />
 									</td>

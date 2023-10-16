@@ -1,10 +1,11 @@
 import { revalidateTag } from "next/cache";
-import { addProductToCart, getCartId } from "@/app/cart/actions";
+import { addProductToCart, getCartId, getOrCreateCartId } from "@/app/cart/actions";
 import { AddToCartButton } from "@/components/atoms/AddToCartClient/AddToCartClient";
 import { ProductVariants } from "@/components/molecules/ProductVariants/ProductVariants";
 import { RelatedProducts } from "@/components/organisms/RelatedProducts/RelatedProducts";
 import { executeGraphql } from "@/components/utils";
 import { ProductGetByIdDocument, type ProductListItemFragment } from "@/gql/graphql";
+import { AddProductReview } from "@/components/molecules/AddProductReview/AddProductReview";
 
 type PageParams = {
 	params: { productId: string };
@@ -49,7 +50,7 @@ export default async function ProductPage({ params }: PageParams) {
 	async function addProductToCartAction(_formData: FormData) {
 		"use server";
 
-		const cartId = await getCartId();
+		const cartId = await getOrCreateCartId();
 		if (!cartId) {
 			throw new Error("Cant get cart id");
 		}
@@ -73,6 +74,7 @@ export default async function ProductPage({ params }: PageParams) {
 				</button> */}
 				<AddToCartButton />
 			</form>
+			<AddProductReview />
 			{categorySlug.length && <RelatedProducts categorySlug={categorySlug} />}
 		</>
 	);

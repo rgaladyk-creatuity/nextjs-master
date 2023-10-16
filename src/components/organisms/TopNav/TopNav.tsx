@@ -3,6 +3,7 @@ import staticData from "./TopNavData.json";
 import { ActiveLink } from "@/components/atoms/ActiveLink/ActiveLink";
 import { SearchBar } from "@/components/molecules/SearchBar/SearchBar";
 import { type TopNavItemType, type TopNavType } from "@/components/types";
+import { getCartData } from "@/app/cart/actions";
 
 export const TopNav = async () => {
 	const data: TopNavType = staticData.map((links) => {
@@ -13,7 +14,13 @@ export const TopNav = async () => {
 	});
 
 	// QUANTITY here
-	const quantity = 0;
+	let quantity = 0;
+	const cartData = await getCartData();
+	if (cartData?.id) {
+		cartData.orderItems.forEach((items) => {
+			quantity += items.quantity;
+		});
+	}
 
 	return (
 		<nav className="mx-auto max-w-xl" role="navigation">
