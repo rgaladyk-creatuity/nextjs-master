@@ -2,9 +2,9 @@ import { cookies } from "next/headers";
 import Link from "next/link";
 import { formatMoney } from "../lib/formatMoney";
 import { CartRemoveButton } from "@/components/atoms/CartRemoveButton/CartRemoveButton";
-import { ChangeQuantity } from "@/components/atoms/ChangeQuantity/ChangeQuantity";
 import { executeGraphql } from "@/components/utils";
 import { CartGetByIdDocument } from "@/gql/graphql";
+import { ChangeQuantity } from "@/components/atoms/ChangeQuantity/ChangeQuantity";
 
 export default async function CartPage() {
 	const cartId = cookies().get("cartId")?.value;
@@ -40,8 +40,9 @@ export default async function CartPage() {
 					<tr>
 						<th>Id</th>
 						<th>Product</th>
+						{/* <th>Decrement</th> */}
 						<th>Quantity</th>
-						<th>Increase</th>
+						{/* <th>Increment</th> */}
 						<th>Price</th>
 						<th>Remove</th>
 					</tr>
@@ -56,7 +57,13 @@ export default async function CartPage() {
 								<tr key={item.id}>
 									<td>{item.id}</td>
 									<td>{item.product.name}</td>
+									{/* <td>
+										<DrecrementQuantity itemId={item.id} quantity={item.quantity} />
+									</td>
 									<td data-testid="quantity">{item.quantity}</td>
+									<td>
+										<IncrementQuantity itemId={item.id} quantity={item.quantity} />
+									</td> */}
 									<td>
 										<ChangeQuantity itemId={item.id} quantity={item.quantity} />
 									</td>

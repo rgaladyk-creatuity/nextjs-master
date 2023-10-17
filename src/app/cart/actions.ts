@@ -74,15 +74,16 @@ export async function addProductToCart(cartId: string, productId: string) {
 	});
 }
 
-export async function changeItemQuantity(itemId: string, quantity: number) {
-	await executeGraphql({
-		query: CartUpdateProductQuantityDocument,
-		variables: {
-			orderItemId: itemId,
-			quantity,
-		},
-	});
-}
+// export async function changeItemQuantity(itemId: string, quantity: number) {
+// 	console.log("UPDATE", itemId, quantity);
+// 	await executeGraphql({
+// 		query: CartUpdateProductQuantityDocument,
+// 		variables: {
+// 			orderItemId: itemId,
+// 			quantity,
+// 		},
+// 	});
+// }
 
 export async function removeProductFromCart(productId: string) {
 	await executeGraphql({

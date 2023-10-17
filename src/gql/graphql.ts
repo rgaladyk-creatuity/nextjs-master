@@ -10729,6 +10729,8 @@ export type CartCreateMutationVariables = Exact<{ [key: string]: never; }>;
 
 export type CartCreateMutation = { createOrder?: { id: string } | null };
 
+export type CartDataFragment = { id: string, orderItems: Array<{ id: string, quantity: number, total: number, product?: { id: string, name: string, price: number, description: string } | null }> };
+
 export type CartRemoveItemMutationVariables = Exact<{
   itemId: Scalars['ID']['input'];
 }>;
@@ -10741,7 +10743,7 @@ export type CartGetByIdQueryVariables = Exact<{
 }>;
 
 
-export type CartGetByIdQuery = { order?: { id: string, orderItems: Array<{ id: string, quantity: number, total: number, product?: { name: string, price: number, description: string } | null }> } | null };
+export type CartGetByIdQuery = { order?: { id: string, orderItems: Array<{ id: string, quantity: number, total: number, product?: { id: string, name: string, price: number, description: string } | null }> } | null };
 
 export type CartUpdateItemQuantityMutationVariables = Exact<{
   orderItemId: Scalars['ID']['input'];
@@ -10749,7 +10751,7 @@ export type CartUpdateItemQuantityMutationVariables = Exact<{
 }>;
 
 
-export type CartUpdateItemQuantityMutation = { updateOrderItem?: { id: string, quantity: number, order?: { orderItems: Array<{ id: string, quantity: number, total: number, product?: { name: string, price: number, description: string } | null }> } | null } | null };
+export type CartUpdateItemQuantityMutation = { updateOrderItem?: { id: string, quantity: number, order?: { orderItems: Array<{ id: string, quantity: number, total: number, product?: { id: string, name: string, price: number, description: string } | null }> } | null } | null };
 
 export type CartUpdateProductQuantityMutationVariables = Exact<{
   orderItemId: Scalars['ID']['input'];
@@ -10766,7 +10768,7 @@ export type CollectionsGetByCategorySlugQueryVariables = Exact<{
 
 export type CollectionsGetByCategorySlugQuery = { collections: Array<{ name: string, products: Array<{ id: string, name: string, description: string, price: number, categories: Array<{ name: string, slug: string }>, images: Array<{ url: string }>, variants: Array<{ id: string, name: string, stage: Stage, color: ProductColor } | { id: string, name: string, stage: Stage, color: ProductColor, size: ProductSize } | { id: string, name: string, stage: Stage, size: ProductSize }> }> }> };
 
-export type OrderItemFragment = { id: string, quantity: number, total: number, product?: { name: string, price: number, description: string } | null };
+export type OrderItemFragment = { id: string, quantity: number, total: number, product?: { id: string, name: string, price: number, description: string } | null };
 
 export type ProductGetByIdQueryVariables = Exact<{
   id: Scalars['ID']['input'];
@@ -10831,12 +10833,31 @@ export const OrderItemFragmentDoc = new TypedDocumentString(`
   quantity
   total
   product {
+    id
     name
     price
     description
   }
 }
     `, {"fragmentName":"OrderItem"}) as unknown as TypedDocumentString<OrderItemFragment, unknown>;
+export const CartDataFragmentDoc = new TypedDocumentString(`
+    fragment CartData on Order {
+  id
+  orderItems {
+    ...OrderItem
+  }
+}
+    fragment OrderItem on OrderItem {
+  id
+  quantity
+  total
+  product {
+    id
+    name
+    price
+    description
+  }
+}`, {"fragmentName":"CartData"}) as unknown as TypedDocumentString<CartDataFragment, unknown>;
 export const ProductListItemVariantsFragmentDoc = new TypedDocumentString(`
     fragment ProductListItemVariants on ProductVariants {
   ... on ProductColorVariant {
@@ -10924,17 +10945,21 @@ export const CartRemoveItemDocument = new TypedDocumentString(`
 export const CartGetByIdDocument = new TypedDocumentString(`
     query CartGetById($id: ID!) {
   order(where: {id: $id}, stage: DRAFT) {
-    id
-    orderItems {
-      ...OrderItem
-    }
+    ...CartData
   }
 }
-    fragment OrderItem on OrderItem {
+    fragment CartData on Order {
+  id
+  orderItems {
+    ...OrderItem
+  }
+}
+fragment OrderItem on OrderItem {
   id
   quantity
   total
   product {
+    id
     name
     price
     description
@@ -10957,6 +10982,7 @@ export const CartUpdateItemQuantityDocument = new TypedDocumentString(`
   quantity
   total
   product {
+    id
     name
     price
     description

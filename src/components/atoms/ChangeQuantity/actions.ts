@@ -5,12 +5,14 @@ import { executeGraphql } from "@/components/utils";
 import { CartUpdateProductQuantityDocument } from "@/gql/graphql";
 
 export async function changeItemQuantity(itemId: string, quantity: number) {
-	await executeGraphql({
+	const data = await executeGraphql({
 		query: CartUpdateProductQuantityDocument,
 		variables: {
 			orderItemId: itemId,
 			quantity,
 		},
+		cache: "no-cache",
 	});
 	revalidateTag("cart");
+	return data;
 }

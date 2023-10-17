@@ -3,6 +3,7 @@ fragment OrderItem on OrderItem {
 	quantity
 	total
 	product {
+		id
 		name
 		price
 		description
