@@ -7,7 +7,6 @@ import {
 	CartCreateDocument,
 	CartGetByIdDocument,
 	CartRemoveItemDocument,
-	CartUpdateProductQuantityDocument,
 	ProductGetByIdDocument,
 } from "@/gql/graphql";
 
@@ -73,17 +72,6 @@ export async function addProductToCart(cartId: string, productId: string) {
 		},
 	});
 }
-
-// export async function changeItemQuantity(itemId: string, quantity: number) {
-// 	console.log("UPDATE", itemId, quantity);
-// 	await executeGraphql({
-// 		query: CartUpdateProductQuantityDocument,
-// 		variables: {
-// 			orderItemId: itemId,
-// 			quantity,
-// 		},
-// 	});
-// }
 
 export async function removeProductFromCart(productId: string) {
 	await executeGraphql({

@@ -6,7 +6,7 @@ export const AddProductReview = () => {
 	return (
 		<form data-testid="add-review-form">
 			{fields.map((field) => {
-				return <FormField name={field} />;
+				return <FormField key={field} name={field} />;
 			})}
 			<input type="submit" value="Add review" />
 		</form>
